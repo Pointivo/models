@@ -426,6 +426,7 @@ def main(unused_argv):
     # Soft placement allows placing on CPU ops without GPU implementation.
     session_config = tf.ConfigProto(
         allow_soft_placement=True, log_device_placement=False)
+    session_config.gpu_options.allow_growth = True
 
     # Start the training.
     profile_dir = FLAGS.profile_logdir
