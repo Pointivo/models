@@ -99,20 +99,10 @@ _ADE20K_INFORMATION = DatasetDescriptor(
     ignore_label=0,
 )
 
-_WATER_PONDING_INFORMATION = DatasetDescriptor(
-    splits_to_sizes={
-        'train': 2062,  # num of samples in images/training
-        'val': 426,  # num of samples in images/validation
-    },
-    num_classes=3,
-    ignore_label=255,
-)
-
 _DATASETS_INFORMATION = {
     'cityscapes': _CITYSCAPES_INFORMATION,
     'pascal_voc_seg': _PASCAL_VOC_SEG_INFORMATION,
     'ade20k': _ADE20K_INFORMATION,
-    'water_ponding': _WATER_PONDING_INFORMATION
 }
 
 # Default file pattern of TFRecord of TensorFlow Example.

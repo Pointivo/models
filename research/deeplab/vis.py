@@ -290,10 +290,7 @@ def main(unused_argv):
       tf.logging.info('Visualizing with model %s', checkpoint_path)
 
       scaffold = tf.train.Scaffold(init_op=tf.global_variables_initializer())
-      session_config = tf.ConfigProto()
-      session_config.gpu_options.allow_growth = True
       session_creator = tf.train.ChiefSessionCreator(
-          config=session_config,
           scaffold=scaffold,
           master=FLAGS.master,
           checkpoint_filename_with_path=checkpoint_path)
