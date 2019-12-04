@@ -142,12 +142,12 @@ def get_label_weight_mask(labels, ignore_label, num_classes, label_weights=1.0):
   not_ignore_mask = tf.cast(not_ignore_mask, tf.float32)
   if isinstance(label_weights, float):
     return not_ignore_mask * label_weights
-
-  label_weights = tf.constant(label_weights, tf.float32)
-  weight_mask = tf.einsum('...y,y->...',
-                          tf.one_hot(labels, num_classes, dtype=tf.float32),
-                          label_weights)
-  return tf.multiply(not_ignore_mask, weight_mask)
+  # original implementation for label_weights did not work
+  weighted_mask = 0
+  for i in range(len(label_weights)):
+      weighted_mask = weighted_mask + tf.to_float(tf.equal(labels, i)) * label_weights[i]
+  weighted_mask = weighted_mask + tf.to_float(tf.equal(labels, ignore_label)) * 0.0
+  return not_ignore_mask * weighted_mask
 
 
 def get_batch_norm_fn(sync_batch_norm_method):
