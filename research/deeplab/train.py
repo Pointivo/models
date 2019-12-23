@@ -443,6 +443,7 @@ def main(unused_argv):
             last_layers,
             ignore_missing_vars=True)
 
+      saver = tf.train.Saver(max_to_keep=100)
       slim.learning.train(
           train_tensor,
           logdir=FLAGS.train_logdir,
@@ -455,7 +456,8 @@ def main(unused_argv):
           init_fn=init_fn,
           summary_op=summary_op,
           save_summaries_secs=FLAGS.save_summaries_secs,
-          save_interval_secs=FLAGS.save_interval_secs)
+          save_interval_secs=FLAGS.save_interval_secs,
+          saver=saver)
 
 
 if __name__ == '__main__':
