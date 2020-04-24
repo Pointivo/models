@@ -25,7 +25,6 @@ from __future__ import print_function
 
 import numpy as np
 import tensorflow as tf
-
 from dragnn.python import network_units
 
 
@@ -205,7 +204,7 @@ def residual(old_input, new_input, dropout_keep_rate, layer_norm):
   res_sum = old_input + network_units.maybe_apply_dropout(new_input,
                                                           dropout_keep_rate,
                                                           False)
-  return layer_norm.normalize(res_sum) if layer_norm else res_sum
+  return layer_norm.apply_normalize(res_sum) if layer_norm else res_sum
 
 
 def mlp(component, input_tensor, dropout_keep_rate, depth):

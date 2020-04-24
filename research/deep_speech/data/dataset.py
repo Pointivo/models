@@ -19,22 +19,24 @@ from __future__ import print_function
 
 import math
 import random
-# pylint: disable=g-bad-import-order
-import numpy as np
-from six.moves import xrange  # pylint: disable=redefined-builtin
-import soundfile
-import tensorflow as tf
-# pylint: enable=g-bad-import-order
 
 import data.featurizer as featurizer  # pylint: disable=g-bad-import-order
+# pylint: disable=g-bad-import-order
+import numpy as np
+import soundfile
+import tensorflow as tf
+from six.moves import xrange  # pylint: disable=redefined-builtin
+
+
+# pylint: enable=g-bad-import-order
 
 
 class AudioConfig(object):
-  """Configs for spectrogram extraction from audio."""
+    """Configs for spectrogram extraction from audio."""
 
-  def __init__(self,
-               sample_rate,
-               window_ms,
+    def __init__(self,
+                 sample_rate,
+                 window_ms,
                stride_ms,
                normalize=False):
     """Initialize the AudioConfig class.
@@ -214,7 +216,7 @@ def input_fn(batch_size, deep_speech_dataset, repeat=1):
   data_entries = deep_speech_dataset.entries
   num_feature_bins = deep_speech_dataset.num_feature_bins
   audio_featurizer = deep_speech_dataset.audio_featurizer
-  feature_normalize = deep_speech_dataset.config.audio_config.normalize
+  feature_normalize = deep_speech_dataset.config.audio_config.apply_normalize
   text_featurizer = deep_speech_dataset.text_featurizer
 
   def _gen_data():
