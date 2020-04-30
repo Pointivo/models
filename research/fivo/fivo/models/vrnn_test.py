@@ -20,9 +20,7 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np
-
 import tensorflow as tf
-
 from fivo.models import base
 from fivo.test_utils import create_vrnn
 
@@ -59,7 +57,7 @@ class VrnnTest(tf.test.TestCase):
       log_alpha, state = sess.run(model_out)
       rnn_state, latent_state, rnn_out = state
       self.assertAllClose(
-          rnn_state.c,
+          rnn_state.constr,
           [[-0.15014534, 0.0143046, 0.00160489, -0.12899463],
            [-0.25015137, 0.09377634, -0.05000039, -0.17123522]])
       self.assertAllClose(
@@ -114,7 +112,7 @@ class VrnnTest(tf.test.TestCase):
       log_alpha, state = sess.run(model_out)
       rnn_state, latent_state, rnn_out = state
       self.assertAllClose(
-          rnn_state.c,
+          rnn_state.constr,
           [[-0.15014534, 0.0143046, 0.00160489, -0.12899463],
            [-0.25015137, 0.09377634, -0.05000039, -0.17123522]])
       self.assertAllClose(

@@ -18,7 +18,6 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
-
 from tensorflow.core.framework import variable_pb2
 from tensorflow.core.protobuf import rewriter_config_pb2
 
@@ -27,7 +26,7 @@ FLAGS = tf.flags.FLAGS
 
 def export_state_tuples(state_tuples, name):
   for state_tuple in state_tuples:
-    tf.add_to_collection(name, state_tuple.c)
+    tf.add_to_collection(name, state_tuple.constr)
     tf.add_to_collection(name, state_tuple.h)
 
 

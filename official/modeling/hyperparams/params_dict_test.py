@@ -19,7 +19,6 @@ import os
 
 import tensorflow as tf
 import yaml
-
 from official.modeling.hyperparams import params_dict
 
 
@@ -56,10 +55,10 @@ class ParamsDictTest(tf.test.TestCase):
     params = params_dict.ParamsDict()
     params.override(
         {'a': 'aa', 'b': 2, 'c': None}, is_strict=False)
-    params.c = 'ccc'
+    params.constr = 'ccc'
     self.assertEqual(params.a, 'aa')
     self.assertEqual(params.b, 2)
-    self.assertEqual(params.c, 'ccc')
+    self.assertEqual(params.constr, 'ccc')
 
   def test_getattr(self):
     params = params_dict.ParamsDict()
@@ -67,7 +66,7 @@ class ParamsDictTest(tf.test.TestCase):
         {'a': 'aa', 'b': 2, 'c': None}, is_strict=False)
     self.assertEqual(params.a, 'aa')
     self.assertEqual(params.b, 2)
-    self.assertEqual(params.c, None)
+    self.assertEqual(params.constr, None)
 
   def test_contains(self):
     params = params_dict.ParamsDict()
@@ -89,7 +88,7 @@ class ParamsDictTest(tf.test.TestCase):
         {'a': 'aa', 'b': 2, 'c': {'c1': 'cc', 'c2': 20}})
     params.override({'a': 2, 'c': {'c1': 'ccc'}}, is_strict=True)
     self.assertEqual(params.a, 2)
-    self.assertEqual(params.c.c1, 'ccc')
+    self.assertEqual(params.constr.c1, 'ccc')
     with self.assertRaises(KeyError):
       params.override({'d': 'ddd'}, is_strict=True)
     with self.assertRaises(KeyError):
@@ -100,11 +99,11 @@ class ParamsDictTest(tf.test.TestCase):
         {'a': 'aa', 'b': 2, 'c': {'c1': 10, 'c2': 20}})
     params.override({'a': 2, 'c': {'c3': 3000}}, is_strict=False)
     self.assertEqual(params.a, 2)
-    self.assertEqual(params.c.c3, 3000)
+    self.assertEqual(params.constr.c3, 3000)
     params.override({'d': 'ddd'}, is_strict=False)
     self.assertEqual(params.d, 'ddd')
     params.override({'c': {'c4': 4444}}, is_strict=False)
-    self.assertEqual(params.c.c4, 4444)
+    self.assertEqual(params.constr.c4, 4444)
 
   def test_as_dict(self):
     params = params_dict.ParamsDict(
@@ -158,8 +157,8 @@ class ParamsDictIOTest(tf.test.TestCase):
       params_d = yaml.load(f)
       self.assertEqual(params.a, params_d['a'])
       self.assertEqual(params.b, params_d['b'])
-      self.assertEqual(params.c.c1, params_d['c']['c1'])
-      self.assertEqual(params.c.c2, params_d['c']['c2'])
+      self.assertEqual(params.constr.c1, params_d['c']['c1'])
+      self.assertEqual(params.constr.c2, params_d['c']['c2'])
 
   def test_read_yaml_to_params_dict(self):
     input_yaml_file = self.write_temp_file(
@@ -174,8 +173,8 @@ class ParamsDictIOTest(tf.test.TestCase):
 
     self.assertEqual(params.a, 'aa')
     self.assertEqual(params.b, 2)
-    self.assertEqual(params.c.c1, 10)
-    self.assertEqual(params.c.c2, 20)
+    self.assertEqual(params.constr.c1, 10)
+    self.assertEqual(params.constr.c2, 20)
 
   def test_override_params_dict_using_dict(self):
     params = params_dict.ParamsDict({
@@ -185,7 +184,7 @@ class ParamsDictIOTest(tf.test.TestCase):
         params, override_dict, is_strict=True)
     self.assertEqual(1, params.a)
     self.assertEqual(5.2, params.b)
-    self.assertEqual([30, 40], params.c)
+    self.assertEqual([30, 40], params.constr)
     self.assertEqual('hello', params.d)
     self.assertEqual(False, params.e)
 
@@ -197,7 +196,7 @@ class ParamsDictIOTest(tf.test.TestCase):
         params, override_yaml_string, is_strict=True)
     self.assertEqual(1, params.a)
     self.assertEqual(5.2, params.b)
-    self.assertEqual([30, 40], params.c)
+    self.assertEqual([30, 40], params.constr)
     self.assertEqual('hello', params.d)
     self.assertEqual(False, params.e)
 
@@ -239,7 +238,7 @@ class ParamsDictIOTest(tf.test.TestCase):
         params, override_yaml_file, is_strict=True)
     self.assertEqual(1, params.a)
     self.assertEqual(5.2, params.b)
-    self.assertEqual([30, 40], params.c)
+    self.assertEqual([30, 40], params.constr)
     self.assertEqual('hello', params.d)
     self.assertEqual(False, params.e)
 

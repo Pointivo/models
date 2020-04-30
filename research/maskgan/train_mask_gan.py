@@ -40,31 +40,27 @@ from __future__ import division
 from __future__ import print_function
 
 import collections
-
-from functools import partial
 import os
 import time
-# Dependency imports
+from functools import partial
 
 import numpy as np
-from six.moves import xrange
-import tensorflow as tf
-
 import pretrain_mask_gan
+import tensorflow as tf
 from data import imdb_loader
 from data import ptb_loader
 from model_utils import helper
 from model_utils import model_construction
 from model_utils import model_losses
 from model_utils import model_optimization
-
 # Data.
 from model_utils import model_utils
-
 from model_utils import n_gram
 from models import evaluation_utils
-
 from models import rollout
+from six.moves import xrange
+
+# Dependency imports
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
@@ -624,8 +620,8 @@ def train_model(hparams, data, log_dir, log, id_to_word, data_ngram_counts):
               if FLAGS.data_set == 'ptb':
                 # Statefulness of the Generator being used for Discriminator.
                 for i, (c, h) in enumerate(model.fake_gen_initial_state):
-                  train_feed[c] = dis_initial_state_eval[i].c
-                  train_feed[h] = dis_initial_state_eval[i].h
+                    train_feed[c] = dis_initial_state_eval[i].constr
+                    train_feed[h] = dis_initial_state_eval[i].h
 
                 # Determine the state had the Generator run over real data.  We
                 # use this state for the Discriminator.
@@ -671,8 +667,8 @@ def train_model(hparams, data, log_dir, log, id_to_word, data_ngram_counts):
                 # Statefulness for the Discriminator.
                 if FLAGS.data_set == 'ptb':
                   for i, (c, h) in enumerate(model.fake_gen_initial_state):
-                    train_feed[c] = dis_initial_state_eval[i].c
-                    train_feed[h] = dis_initial_state_eval[i].h
+                      train_feed[c] = dis_initial_state_eval[i].constr
+                      train_feed[h] = dis_initial_state_eval[i].h
 
                 _, dis_loss_eval, step = sess.run(
                     [model.dis_train_op, model.dis_loss, model.global_step],
@@ -695,13 +691,13 @@ def train_model(hparams, data, log_dir, log, id_to_word, data_ngram_counts):
                 print('Generator is stateful.')
                 # Statefulness for *evaluation* Generator.
                 for i, (c, h) in enumerate(model.eval_initial_state):
-                  train_feed[c] = gen_initial_state_eval[i].c
-                  train_feed[h] = gen_initial_state_eval[i].h
+                    train_feed[c] = gen_initial_state_eval[i].constr
+                    train_feed[h] = gen_initial_state_eval[i].h
 
                 # Statefulness for Generator.
                 for i, (c, h) in enumerate(model.fake_gen_initial_state):
-                  train_feed[c] = fake_gen_initial_state_eval[i].c
-                  train_feed[h] = fake_gen_initial_state_eval[i].h
+                    train_feed[c] = fake_gen_initial_state_eval[i].constr
+                    train_feed[h] = fake_gen_initial_state_eval[i].h
 
               # Determine whether to decay learning rate.
               lr_decay = hparams.gen_learning_rate_decay**max(
@@ -905,13 +901,13 @@ def evaluate_once(data, sv, model, sess, train_dir, log, id_to_word,
     if FLAGS.data_set == 'ptb':
       # Statefulness for *evaluation* Generator.
       for i, (c, h) in enumerate(model.eval_initial_state):
-        eval_feed[c] = gen_initial_state_eval[i].c
-        eval_feed[h] = gen_initial_state_eval[i].h
+          eval_feed[c] = gen_initial_state_eval[i].constr
+          eval_feed[h] = gen_initial_state_eval[i].h
 
       # Statefulness for the Generator.
       for i, (c, h) in enumerate(model.fake_gen_initial_state):
-        eval_feed[c] = fake_gen_initial_state_eval[i].c
-        eval_feed[h] = fake_gen_initial_state_eval[i].h
+          eval_feed[c] = fake_gen_initial_state_eval[i].constr
+          eval_feed[h] = fake_gen_initial_state_eval[i].h
 
     [
         gen_log_perplexity_eval, dis_loss_eval, gen_loss_eval,

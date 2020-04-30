@@ -81,7 +81,7 @@ class ConfigLibTest(tf.test.TestCase):
             l=[3, 4, 5, 6]),
         config)
     self.assertTrue(isinstance(config.x, config_lib.Config))
-    self.assertTrue(isinstance(config.x.c, config_lib.Config))
+    self.assertTrue(isinstance(config.x.constr, config_lib.Config))
     self.assertTrue(isinstance(config.y, config_lib.Config))
 
     config = config_lib.Config(
@@ -110,7 +110,7 @@ class ConfigLibTest(tf.test.TestCase):
             l={'a': 1, 'b': 2}),
         config)
     self.assertTrue(isinstance(config.x, config_lib.Config))
-    self.assertTrue(isinstance(config.x.c, config_lib.Config))
+    self.assertTrue(isinstance(config.x.constr, config_lib.Config))
     self.assertTrue(isinstance(config.y, list))
 
   def testConfigStrictUpdate(self):
@@ -193,7 +193,7 @@ class ConfigLibTest(tf.test.TestCase):
     self.assertEqual(
         {'c': {'d': 5}, 'b': 2, 'a': 1}, config)
     self.assertTrue(isinstance(config, config_lib.Config))
-    self.assertTrue(isinstance(config.c, config_lib.Config))
+    self.assertTrue(isinstance(config.constr, config_lib.Config))
 
   def testConfigParse(self):
     config = config_lib.Config.parse(
@@ -208,7 +208,7 @@ class ConfigLibTest(tf.test.TestCase):
         config)
     self.assertTrue(isinstance(config, config_lib.Config))
     self.assertTrue(isinstance(config.subconfig, config_lib.Config))
-    self.assertTrue(isinstance(config.subconfig.c, config_lib.Config))
+    self.assertTrue(isinstance(config.subconfig.constr, config_lib.Config))
     self.assertFalse(isinstance(config.dct, config_lib.Config))
     self.assertFalse(isinstance(config.dct['subdict'], config_lib.Config))
     self.assertTrue(isinstance(config.lst[4], tuple))

@@ -60,16 +60,13 @@ from __future__ import division
 from __future__ import print_function
 
 import time
+from distutils.version import StrictVersion
 
 import numpy as np
-import tensorflow as tf
-
 import reader
+import tensorflow as tf
 import util
-
 from tensorflow.python.client import device_lib
-
-from distutils.version import StrictVersion
 
 flags = tf.flags
 logging = tf.logging
@@ -404,7 +401,7 @@ def run_epoch(session, model, eval_op=None, verbose=False):
   for step in range(model.input.epoch_size):
     feed_dict = {}
     for i, (c, h) in enumerate(model.initial_state):
-      feed_dict[c] = state[i].c
+      feed_dict[c] = state[i].constr
       feed_dict[h] = state[i].h
 
     vals = session.run(fetches, feed_dict)

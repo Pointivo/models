@@ -104,7 +104,7 @@ class UtilsTest(tf.test.TestCase):
     inst = my_record(a=1, b=2, c=3)
     self.assertEqual(1, inst.a)
     self.assertEqual(2, inst.b)
-    self.assertEqual(3, inst.c)
+    self.assertEqual(3, inst.constr)
     self.assertEqual(1, inst[0])
     self.assertEqual(2, inst[1])
     self.assertEqual(3, inst[2])

@@ -32,21 +32,20 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from functools import partial
 import os
-# Dependency imports
+from functools import partial
 
 import numpy as np
-from six.moves import xrange
 import tensorflow as tf
-
 import train_mask_gan
 from data import imdb_loader
 from data import ptb_loader
-
 # Data.
 from model_utils import helper
 from model_utils import model_utils
+from six.moves import xrange
+
+# Dependency imports
 
 SAMPLE_TRAIN = 'TRAIN'
 SAMPLE_VALIDATION = 'VALIDATION'
@@ -215,13 +214,13 @@ def generate_samples(hparams, data, id_to_word, log_dir, output_file):
           if FLAGS.data_set == 'ptb':
             # Statefulness for *evaluation* Generator.
             for i, (c, h) in enumerate(model.eval_initial_state):
-              eval_feed[c] = gen_initial_state_eval[i].c
-              eval_feed[h] = gen_initial_state_eval[i].h
+                eval_feed[c] = gen_initial_state_eval[i].constr
+                eval_feed[h] = gen_initial_state_eval[i].h
 
             # Statefulness for the Generator.
             for i, (c, h) in enumerate(model.fake_gen_initial_state):
-              eval_feed[c] = fake_gen_initial_state_eval[i].c
-              eval_feed[h] = fake_gen_initial_state_eval[i].h
+                eval_feed[c] = fake_gen_initial_state_eval[i].constr
+                eval_feed[h] = fake_gen_initial_state_eval[i].h
 
           [gen_initial_state_eval, fake_gen_initial_state_eval, _] = sess.run(
               [
